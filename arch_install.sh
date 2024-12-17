@@ -48,7 +48,7 @@ ln -sf /usr/share/zoneinfo/America/Chicago /etc/localtime
 hwclock --systohc --utc
 
 # Pacman configuration
-sed -i '/^\#\[multilib\]$/,/^\#Include = \/etc\/pacman\.d\/mirrorlist$/s/^#//' /etc/pacman.conf
+sed -i "/\[multilib\]/,/Include/"'s/^#//' /etc/pacman.conf
 sed -i 's/^#ParallelDownloads = 5/ParallelDownloads = 10/' /etc/pacman.conf
 
 # Update mirrorlist with Reflector
@@ -63,7 +63,7 @@ echo "LANG=en_US.UTF-8" > /etc/locale.conf
 echo "archlinux" > /etc/hostname
 
 # Update system
-pacman -Sy
+pacman -Syu
 
 # Sudoers configuration
 cp /etc/sudoers /etc/sudoers.backup
@@ -101,6 +101,7 @@ pacman -S plasma-meta sddm xorg-server egl-wayland pipewire lib32-pipewire wirep
 
 flatpak install flathub tv.plex.PlexDesktop
 flatpak install flathub net.davidotek.pupgui2
+wget -nv -O- https://download.calibre-ebook.com/linux-installer.sh | sudo sh /dev/stdin
 
 cat <<EOL > /etc/systemd/zram-generator.conf
 [zram0]
@@ -121,14 +122,3 @@ usermod -a -G libvirt $USERNAME
 systemctl enable sddm
 systemctl enable cups
 systemctl enable NetworkManager
-
-
-
-
-
-
-
-
-
-
-
